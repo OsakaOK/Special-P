@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Poko 💌</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Fredoka', system-ui, sans-serif;
+    background: linear-gradient(160deg, #ffe8f1 0%, #fff4d6 55%, #ffe0e0 100%);
+    color: #5a3a3a;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* floating background doodles */
+  .float {
+    position: fixed; bottom: -60px; font-size: 28px; opacity: .55;
+    animation: rise linear infinite; pointer-events: none; z-index: 0;
+  }
+  @keyframes rise {
+    to { transform: translateY(-115vh) rotate(25deg); }
+  }
+
+  .card {
+    position: relative; z-index: 1;
+    background: #fff; border-radius: 28px;
+    padding: 36px 28px 30px; width: min(90vw, 380px);
+    text-align: center;
+    box-shadow: 0 12px 0 #f7b8cc, 0 20px 40px rgba(220, 120, 150, .25);
+    border: 3px solid #ffd1df;
+  }
+  .emoji-top { font-size: 56px; display: block; margin-bottom: 8px; animation: bob 2s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-8px); } }
+  h1 { font-size: 26px; font-weight: 700; line-height: 1.25; margin-bottom: 26px; color: #d94f7a; }
+
+  .buttons { display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; }
+  button {
+    font-family: inherit; font-weight: 700; border: none; cursor: pointer;
+    border-radius: 999px; padding: 12px 28px; font-size: 18px;
+    transition: transform .15s ease, font-size .25s ease, padding .25s ease;
+  }
+  button:active { transform: scale(.94); }
+  .yes { background: #ff6f9c; color: #fff; box-shadow: 0 5px 0 #d94f7a; }
+  .no  { background: #ffe3a3; color: #8a5a10; box-shadow: 0 5px 0 #e8b94a; }
+
+  /* popups */
+  .overlay {
+    position: fixed; inset: 0; background: rgba(255, 200, 215, .35);
+    z-index: 5; display: none;
+  }
+  .popup {
+    position: fixed; z-index: 10;
+    background: #fff; border-radius: 24px; padding: 24px 22px 22px;
+    width: min(82vw, 300px); text-align: center;
+    border: 3px solid #ffd1df;
+    box-shadow: 0 8px 0 #f7b8cc, 0 16px 30px rgba(220, 120, 150, .3);
+    animation: pop .35s cubic-bezier(.3, 1.6, .5, 1);
+  }
+  @keyframes pop { from { transform: translate(-50%, -50%) scale(.2); opacity: 0; } }
+  .popup .big { font-size: 42px; display: block; margin-bottom: 6px; }
+  .popup .tag {
+    display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .5px;
+    padding: 4px 10px; border-radius: 999px; margin-bottom: 10px; text-transform: uppercase;
+  }
+
+  /* three themed worlds */
+  .t-honey { background: #fff3c4; border-color: #f2c14e; box-shadow: 0 8px 0 #e0a92e, 0 16px 30px rgba(200,150,40,.3); }
+  .t-honey p { color: #9a5b00; }
+  .t-honey .tag { background: #f2c14e; color: #fff; }
+  .t-honey .no { background: #fff; color: #9a5b00; box-shadow: 0 5px 0 #e0a92e; }
+
+  .t-red { background: #ffe1dc; border-color: #ef3e36; box-shadow: 0 8px 0 #c72a23, 0 16px 30px rgba(200,40,40,.3); }
+  .t-red p { color: #c72a23; }
+  .t-red .tag { background: #ef3e36; color: #fff; }
+  .t-red .no { background: #ffb347; color: #7a3b00; box-shadow: 0 5px 0 #e08a1e; }
+
+  .t-pink { background: #fff0f6; border-color: #ff8fb8; box-shadow: 0 8px 0 #f06a9b, 0 16px 30px rgba(240,100,150,.3); }
+  .t-pink p { color: #e0457f; }
+  .t-pink .tag { background: #ff8fb8; color: #fff; }
+  .t-pink .no { background: #fff; color: #e0457f; box-shadow: 0 5px 0 #f7b8cc; }
+
+  .stripe { display: flex; height: 10px; border-radius: 999px; overflow: hidden; margin: 0 auto 18px; width: 70%; }
+  .stripe span { flex: 1; }
+  .names { font-size: 14px; color: #b07a8a; margin-top: 20px; }
+
+  /* intro envelope */
+  .intro { cursor: pointer; user-select: none; }
+  .intro .env { font-size: 96px; margin-bottom: 10px; animation: wiggle 1.6s ease-in-out infinite; }
+  @keyframes wiggle { 0%,100% { transform: rotate(0); } 20% { transform: rotate(-8deg); } 40% { transform: rotate(8deg); } 60% { transform: rotate(0); } }
+  .intro .sub { font-size: 16px; color: #b07a8a; margin-bottom: 18px; }
+  .intro .tap { font-weight: 700; color: #ff6f9c; animation: bob 1.4s ease-in-out infinite; }
+  .intro.opening { animation: openUp .5s ease forwards; }
+  @keyframes openUp { to { transform: scale(1.3); opacity: 0; } }
+  @keyframes popIn { from { transform: scale(.3); opacity: 0; } }
+  #ask.show { animation: popIn .45s cubic-bezier(.3,1.6,.5,1); }
+
+  .shot {
+    margin-top: 14px; display: inline-block; font-size: 15px; font-weight: 700;
+    color: #fff; background: #ff6f9c; padding: 8px 16px; border-radius: 999px;
+    box-shadow: 0 4px 0 #d94f7a;
+  }
+
+  /* plan */
+  .plan { display: none; max-height: 92vh; overflow-y: auto; }
+  .plan .sub { font-size: 16px; color: #b07a8a; margin-bottom: 18px; }
+  .stop {
+    display: flex; gap: 14px; align-items: center; text-align: left;
+    border-radius: 18px; padding: 12px 14px; margin-bottom: 12px;
+    border: 2px solid; animation: popIn .4s cubic-bezier(.3,1.6,.5,1) both;
+  }
+  .stop:nth-of-type(2) { animation-delay: .15s; }
+  .stop:nth-of-type(3) { animation-delay: .3s; }
+  .stop:nth-of-type(4) { animation-delay: .45s; }
+  .stop .ico { font-size: 32px; }
+  .stop .time { font-size: 13px; font-weight: 700; opacity: .8; }
+  .stop .what { font-size: 18px; font-weight: 700; }
+  .stop .note { font-size: 14px; opacity: .85; }
+  .s-honey { background: #fff3c4; border-color: #f2c14e; color: #9a5b00; }
+  .s-red   { background: #ffe1dc; border-color: #ef3e36; color: #c72a23; }
+  .s-pink  { background: #fff0f6; border-color: #ff8fb8; color: #e0457f; }
+  .popup p { font-size: 20px; font-weight: 600; margin-bottom: 18px; color: #d94f7a; }
+  .popup button { font-size: 16px; padding: 10px 22px; }
+
+  /* success */
+  .success { display: none; }
+  .success h1 { margin-bottom: 10px; }
+  .success p { font-size: 18px; line-height: 1.5; }
+
+  .confetti {
+    position: fixed; top: -40px; font-size: 26px; z-index: 20; pointer-events: none;
+    animation: fall linear forwards;
+  }
+  @keyframes fall { to { transform: translateY(110vh) rotate(540deg); } }
+</style>
+</head>
+<body>
+
+<div class="card intro" id="intro">
+  <div class="env">💌</div>
+  <h1 style="margin-bottom:6px">For Poko</h1>
+  <p class="sub">You've got a little letter...</p>
+  <p class="tap">Tap to open 💖</p>
+</div>
+
+<div class="card" id="ask" style="display:none">
+  <div class="stripe"><span style="background:#f2c14e"></span><span style="background:#ef3e36"></span><span style="background:#ff8fb8"></span></div>
+  <span class="emoji-top">&#x1FAE3;</span>
+  <h1>Sabaiydee Poko,<br>are you free on the 22nd?<br>Will you go on a date with me?</h1>
+  <div class="buttons">
+    <button class="yes" id="mainYes">YES 💖</button>
+    <button class="no" id="mainNo">NO</button>
+  </div>
+  <p class="names">🍯 Pooh · 🍪 Elmo · 🎀 Hello Kitty are all waiting for your answer</p>
+</div>
+
+<div class="card success" id="yay">
+  <span class="emoji-top">&#x1F924;</span>
+  <h1>YAYYY!! It's a date! 💖</h1>
+  <p>Pooh, Elmo and Hello Kitty all approve 🍯🍪🎀<br>Can't wait to see you!</p>
+  <button class="yes" id="planBtn" style="margin-top:22px">See our plan for the 22nd 💌</button>
+</div>
+
+<div class="card plan" id="plan">
+  <div class="stripe"><span style="background:#f2c14e"></span><span style="background:#ef3e36"></span><span style="background:#ff8fb8"></span></div>
+  <h1 style="margin-bottom:6px">Our Date 💖</h1>
+  <p class="sub">Sunday, November 22</p>
+
+  <div class="stop s-honey">
+    <div class="ico">🍨</div>
+    <div><div class="time">12:00 – 1:00 PM</div><div class="what">Brunch</div><div class="note">Pick your favourite café or brunch place</div></div>
+  </div>
+  <div class="stop s-red">
+    <div class="ico">📸</div>
+    <div><div class="time">Afternoon</div><div class="what">Photo-booth time</div><div class="note">Cute photos + just us hanging out</div></div>
+  </div>
+  <div class="stop s-pink">
+    <div class="ico">🍴</div>
+    <div><div class="time">Evening</div><div class="what">Dinner</div><div class="note">Somewhere you'll remember 🎂</div></div>
+  </div>
+  <div class="stop s-honey">
+    <div class="ico">🤭</div>
+    <div><div class="time">After dinner</div><div class="what">A little surprise</div><div class="note">No peeking!</div></div>
+  </div>
+
+  <p class="names" style="margin-top:16px">Dress cute or not, up2u — you are still the cutest 🎀</p>
+  <p class="shot">Screenshot this and send it to Os 📸💖</p>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<script>
+  // background doodles
+  const doodles = ['🍯','🐝','🎈','🎀','💖','🍪','🌸','💕','⭐'];
+  for (let i = 0; i < 16; i++) {
+    const d = document.createElement('span');
+    d.className = 'float';
+    d.textContent = doodles[i % doodles.length];
+    d.style.left = Math.random() * 100 + 'vw';
+    d.style.fontSize = (20 + Math.random() * 18) + 'px';
+    d.style.animationDuration = (9 + Math.random() * 9) + 's';
+    d.style.animationDelay = (-Math.random() * 18) + 's';
+    document.body.appendChild(d);
+  }
+
+  // [theme, tag, emoji, text]
+  const messages = [
+    ['honey', 'Pooh says', '🍯', 'Oh bother... are you sure?'],
+    ['red',   'Elmo says', '🍪', 'Elmo thinks you should say yes!'],
+    ['pink',  'Hello Kitty says', '🎀', 'Pretty please with a bow on top?'],
+    ['honey', 'Pooh says', '🐝', 'Bee mine? Sweeter than honey 💛'],
+    ['red',   'Elmo says', '🎈', "Elmo will bring cookies! 🍪"],
+    ['pink',  'Hello Kitty says', '🌸', "That button doesn't work 😤"],
+    ['honey', 'Pooh says', '🍯', "You're breaking my honey pot heart..."],
+    ['red',   'Elmo says', '❤️', 'Elmo loves you! Say yes!'],
+    ['pink',  'Hello Kitty says', '💖', 'Just say yes already!'],
+  ];
+
+  let noCount = 0;
+  const mainYes = document.getElementById('mainYes');
+  const overlay = document.getElementById('overlay');
+
+  function growYes() {
+    const size = Math.min(18 + noCount * 4, 44);
+    mainYes.style.fontSize = size + 'px';
+    mainYes.style.padding = (12 + noCount * 2) + 'px ' + (28 + noCount * 4) + 'px';
+  }
+
+  function showPopup() {
+    noCount++;
+    growYes();
+    overlay.style.display = 'block';
+
+    const [theme, tag, emoji, text] = messages[(noCount - 1) % messages.length];
+    const p = document.createElement('div');
+    p.className = 'popup t-' + theme;
+    // pop up at a slightly random spot near the middle
+    const x = 50 + (Math.random() * 30 - 15);
+    const y = 50 + (Math.random() * 30 - 15);
+    p.style.left = x + 'vw';
+    p.style.top = y + 'vh';
+    p.style.transform = 'translate(-50%, -50%)';
+
+    const yesSize = Math.min(16 + noCount * 2, 30);
+    p.innerHTML =
+      '<span class="tag">' + tag + '</span>' +
+      '<span class="big">' + emoji + '</span>' +
+      '<p>' + text + '</p>' +
+      '<div class="buttons">' +
+        '<button class="yes" style="font-size:' + yesSize + 'px">YES 💖</button>' +
+        '<button class="no">NO</button>' +
+      '</div>';
+    p.querySelector('.yes').onclick = sayYes;
+    p.querySelector('.no').onclick = showPopup;
+    document.body.appendChild(p);
+  }
+
+  function sayYes() {
+    document.querySelectorAll('.popup').forEach(p => p.remove());
+    overlay.style.display = 'none';
+    document.getElementById('ask').style.display = 'none';
+    document.getElementById('yay').style.display = 'block';
+    confetti();
+  }
+
+  function confetti() {
+    const bits = ['💖','🎀','🍯','🎈','🌸','💕','⭐','🐝','🍪'];
+    for (let i = 0; i < 60; i++) {
+      setTimeout(() => {
+        const c = document.createElement('span');
+        c.className = 'confetti';
+        c.textContent = bits[Math.floor(Math.random() * bits.length)];
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.animationDuration = (2.5 + Math.random() * 2.5) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 5500);
+      }, i * 60);
+    }
+  }
+
+  document.getElementById('planBtn').onclick = () => {
+    document.getElementById('yay').style.display = 'none';
+    document.getElementById('plan').style.display = 'block';
+  };
+
+  const intro = document.getElementById('intro');
+  intro.onclick = () => {
+    if (intro.classList.contains('opening')) return;
+    intro.classList.add('opening');
+    setTimeout(() => {
+      intro.style.display = 'none';
+      const ask = document.getElementById('ask');
+      ask.style.display = 'block';
+      ask.classList.add('show');
+    }, 500);
+  };
+
+  mainYes.onclick = sayYes;
+  document.getElementById('mainNo').onclick = showPopup;
+</script>
+</body>
+</html>
