@@ -106,6 +106,13 @@
     box-shadow: 0 4px 0 #d94f7a;
   }
 
+  .back {
+    position: absolute; top: 14px; left: 14px;
+    background: #fff0f6; color: #e0457f; font-size: 14px;
+    padding: 6px 14px; box-shadow: 0 3px 0 #f7b8cc;
+  }
+  .plan { position: relative; padding-top: 52px; }
+
   /* plan */
   .plan { display: none; max-height: 92vh; overflow-y: auto; }
   .plan .sub { font-size: 16px; color: #b07a8a; margin-bottom: 18px; }
@@ -167,6 +174,7 @@
 </div>
 
 <div class="card plan" id="plan">
+  <button class="back" id="backBtn">← Back</button>
   <div class="stripe"><span style="background:#f2c14e"></span><span style="background:#ef3e36"></span><span style="background:#ff8fb8"></span></div>
   <h1 style="margin-bottom:6px">Our Date 💖</h1>
   <p class="sub">Sunday, November 22</p>
@@ -181,7 +189,7 @@
   </div>
   <div class="stop s-pink">
     <div class="ico">🍴</div>
-    <div><div class="time">Evening</div><div class="what">Dinner</div><div class="note">Somewhere you'll remember 🎂</div></div>
+    <div><div class="time">Evening</div><div class="what">Dinner</div><div class="note">Somewhere you'll remember</div></div>
   </div>
   <div class="stop s-honey">
     <div class="ico">🤭</div>
@@ -298,6 +306,11 @@
       ask.style.display = 'block';
       ask.classList.add('show');
     }, 500);
+  };
+
+  document.getElementById('backBtn').onclick = () => {
+    document.getElementById('plan').style.display = 'none';
+    document.getElementById('yay').style.display = 'block';
   };
 
   mainYes.onclick = sayYes;
